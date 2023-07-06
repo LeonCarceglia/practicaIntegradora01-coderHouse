@@ -1,6 +1,6 @@
 import cartModel from "../../models/cart.js"
 
-export default class cartsManager{
+export default class CartsManager{
 
     getCarts = () =>{
         return cartModel.find().lean()
@@ -22,4 +22,7 @@ export default class cartsManager{
         return cartModel.findByIdAndDelete(id)
     }
 
+    addProduct = (idCart, idProduct, quantity) =>{
+        return cartModel.getCart(idCart) = {$push: {_id: idProduct, quantity}}
+    }
 }
