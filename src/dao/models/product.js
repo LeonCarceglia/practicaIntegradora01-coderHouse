@@ -15,7 +15,10 @@ const productsSchema = new mongoose.Schema({
     },
     stock: Number,
     category: String,
-    thumbnails: Array
+    thumbnails: {
+        type: Array,
+        default: []
+    }
 })
 
 const productModel = mongoose.model(productsCollection, productsSchema)

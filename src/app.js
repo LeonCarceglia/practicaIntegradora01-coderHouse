@@ -8,9 +8,10 @@ import productsRouter from "./routes/products.router.js"
 import cartsRouter from "./routes/carts.router.js"
 
 import __dirname from "./utils.js"
+import messageModel from "./dao/models/message.js"
 
 const app = express()
-const connection = await mongoose.connect("mongodb+srv://leoncarceglia:coder@cluster0.ipkw6cl.mongodb.net/?retryWrites=true&w=majority")
+const connection = await mongoose.connect("mongodb+srv://leoncarceglia:coder@cluster0.ipkw6cl.mongodb.net/")
 
 
 app.engine("handlebars", handlebars.engine())
@@ -30,13 +31,17 @@ const httpServer = app.listen(3000, () => {
 
 const io = new Server(httpServer)
 
-const messages = []
 io.on("connection", socket => {
     console.log("Nuevo cliente conectado")
-    io.listenerCount("messagesLogs", messages)
     socket.on("message", data =>{
-        messages.push(data)
-        io.emit("messageLogs", messages)
-        console.log(data)
+        const newMessage = new messageModel({
+            user: data.user,
+            message: data.message
+          })
+        newMessage.save()
+        .then(() => messageModel.find())
+        .then(messages => {
+            io.emit("messageLogs", messages)
+        })
     })
 })

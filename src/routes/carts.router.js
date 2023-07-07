@@ -42,10 +42,10 @@ router.get("/:id", async (req,res) =>{
     res.json({status: "ok", data: cart})
 })
 
-router.post("/:cId/product/:pId", async (req, res) =>{
+router.put("/:cId/product/:pId", async (req, res) =>{
     const ids = req.params
     const {quantity} = req.body
-    await cartsManager.updateCart(ids.cId, ids.pId, quantity)
+    await cartsManager.addProductToCart(ids.cId, ids.pId, quantity)
     res.status(201).json({status: "ok", success: "Product added"})
 })
 

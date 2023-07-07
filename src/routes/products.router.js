@@ -75,7 +75,7 @@ router.get("/:id", async (req,res) =>{
 
 router.put("/:id", async (req,res) =>{
     const {title, description, code, price, stock, category, thumbnails} = req.body
-    if(!title || !description || !code || !price || !stock || !category || !thumbnails) {
+    if(!title || !description || !code || !price || !stock || !category) {
         return res.status(400).json({status: "error", message: "No data sent!"})
     }
     const {id} = req.params

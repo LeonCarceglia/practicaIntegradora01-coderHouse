@@ -22,7 +22,11 @@ export default class CartsManager{
         return cartModel.findByIdAndDelete(id)
     }
 
-    addProduct = (idCart, idProduct, quantity) =>{
-        return cartModel.getCart(idCart) = {$push: {_id: idProduct, quantity}}
+    addProductToCart = (idCart, idProduct, quantity) =>{
+        cartModel.findById(idCart)
+        .then(cart => {
+            cart.products.push({product: idProduct, quantity})
+            return cart.save()
+        })
     }
 }
